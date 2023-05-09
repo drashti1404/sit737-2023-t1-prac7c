@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeservice
+  labels:
+    app: 
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kubeservice
+  template:
+    metadata:
+      labels:
+        app: kubeservice
+    spec:
+      containers:
+      - name: kubeservice
+        image: drashtishah04/kubeimage:latest
+        ports:
+        - containerPort: 80

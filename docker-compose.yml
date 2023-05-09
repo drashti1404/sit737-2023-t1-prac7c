@@ -1,0 +1,34 @@
+version: '3'
+
+services: 
+  node-app1:
+    build: .
+    ports:
+      - ":8000:8080"
+    networks:
+       my-network:
+          aliases:
+          - node-container1
+    healthcheck:
+      test: curl --fail /hello/health || exit 1
+      interval: 30s
+      timeout: 30s
+      retries: 5
+  other-container:
+    image: node-image2
+    command: sh -c "echo 'listning from another container..!' && node nodejswebapp.js"
+    expose:
+        - "8080"
+    networks:
+          my-network:
+            aliases:
+              - conatiner2
+    healthcheck:
+        test: curl --fail /hello/health || exit1
+        interval: 30s
+        timeout: 30s
+        retries: 5
+networks:
+  my-network:
+    driver: bridge
+    
